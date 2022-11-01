@@ -1,44 +1,58 @@
+import { DateTime } from "luxon";
 import { FC } from "react";
 import { Link } from "react-router-dom";
+import { FeedArticle } from "../../api/dto/get-feed.in";
 import { FavoriteButton } from "../favorite-button/favorite-button.component";
 import { TagList } from "../tag-list/tag-list.component";
 
-interface ArticleProps {}
+interface ArticleProps extends FeedArticle {}
 
-export const Article: FC<ArticleProps> = () => {
+export const Article: FC<ArticleProps> = ({
+  author,
+  createdAt,
+  favoritesCount,
+  title,
+  description,
+  tagList,
+}) => {
   return (
     <article>
       <div className="border-t border-black/10 py-6">
-        <div className="mb-4 font-light flex">
-          <Link to="/">
-            <img
-              src="https://api.realworld.io/images/demo-avatar.png"
-              alt="avatar"
-              className="inline-block h-8 w-8 rounded-full"
-            />
-          </Link>
-          <div className="mr-6 ml-0.3 leading-4 inline-flex flex-col">
-            <Link to="/" className="font-medium">
-              Dmytro
+        <div className="mb-4 font-light flex justify-between">
+          <div className="flex">
+            <Link to={`/@${author.image}`}>
+              <img
+                src={author.image}
+                alt={`${author.username} avatar`}
+                className="inline-block h-8 w-8 rounded-full"
+              />
             </Link>
-            <span className="text-conduit-gray text-date">october 2002</span>
+            <div className="mr-6 ml-0.3 leading-4 inline-flex flex-col">
+              <Link to={`/@${author.image}`} className="font-medium">
+                {author.username}
+              </Link>
+              <span className="text-conduit-gray text-date">
+                {DateTime.fromISO(createdAt).toLocaleString(
+                  DateTime.DATETIME_FULL
+                )}
+              </span>
+            </div>
           </div>
-          <FavoriteButton />
+          <FavoriteButton count={favoritesCount} />
         </div>
         <Link to="/article/" className="hover:no-underline">
           <h1 className="mb-1 font-semibold text-2xl text-conduit-darkestGray">
-            some title
+            {title}
           </h1>
           <p className="text-conduit-darkenGray font-light mb-1">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit,
-            explicabo.
+            {description}
           </p>
         </Link>
         <div className="flex justify-between">
           <span className="text-conduit-gray text-date font-light">
             Read more...
           </span>
-          <TagList />
+          <TagList list={tagList} />
         </div>
       </div>
     </article>
