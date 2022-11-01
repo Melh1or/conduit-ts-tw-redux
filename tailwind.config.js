@@ -2,7 +2,19 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        titillium: ["Titillium Web", "sans-serif;"],
+      },
+      colors: {
+        conduit: {
+          green: "#5CB85C",
+        },
+      },
+      spacing: {
+        navItem: "0.425rem",
+      },
+    },
   },
   plugins: [],
 };
