@@ -18,7 +18,7 @@ export interface FeedArticle {
   author: Author;
 }
 
-export interface GlobalFeed {
+export interface GlobalFeedInDTO {
   articles: FeedArticle[];
   articlesCount: number;
 }

@@ -8,6 +8,7 @@ import { ArticleList } from "../article-list/article-list.component";
 import { FeedToggle } from "../feed-toggle/feed-toggle.component";
 import { FEED_PAGE_SIZE } from "../../consts";
 import { serializeSearchParams } from "../../../../utils/router";
+import { TagCloud } from '../tag-cloud/tag-cloud.component';
 
 interface FeedProps {}
 
@@ -51,7 +52,9 @@ export const Feed: FC<FeedProps> = () => {
             />
           </nav>
         </div>
-        <div className="w-1/4">tags</div>
+        <div className="w-1/4 pl-3">
+          <TagCloud />
+        </div>
       </div>
     </Container>
   );
