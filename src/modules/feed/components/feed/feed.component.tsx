@@ -19,6 +19,7 @@ export const Feed: FC<FeedProps> = () => {
   );
   const { data, isLoading, error, isFetching } = useGetGlobalFeedQuery({
     page,
+    tag: searchParams.get('tag')
   });
 
   const handlePageChange = ({ selected }: { selected: number }) => {
