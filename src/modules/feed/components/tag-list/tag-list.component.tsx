@@ -21,9 +21,9 @@ export const TagList: FC<TagListProps> = ({
   const itemClasses = clsx(
     "font-light border text-date mr-1 mb-0.2 px-tag rounded-tag",
     {
-      "border-conduit-lightenGray text-conduit-tag":
+      "border-conduit-gray-500 text-conduit-gray-600":
         itemStyle === TagListStyle.LIGHT,
-      "border-conduit-tagItemBg bg-conduit-tagItemBg text-white hover:bg-conduit-tagItemBgDarken":
+      "border-conduit-gray-800 bg-conduit-gray-800 text-white hover:bg-conduit-gray-900":
         itemStyle === TagListStyle.DARK,
       "hover:text-white hover:no-underline":
         itemAs === "a" && itemStyle === TagListStyle.DARK,

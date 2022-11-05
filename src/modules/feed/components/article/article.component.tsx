@@ -20,7 +20,7 @@ export const Article: FC<ArticleProps> = ({
       <div className="py-6 border-t border-black/10">
         <div className="flex justify-between mb-4 font-light">
           <div className="flex">
-            <Link to={`/@${author.image}`}>
+            <Link to={`/@${author.username}`}>
               <img
                 src={author.image}
                 alt={`${author.username} avatar`}
@@ -28,26 +28,26 @@ export const Article: FC<ArticleProps> = ({
               />
             </Link>
             <div className="mr-6 ml-0.3 leading-4 inline-flex flex-col">
-              <Link to={`/@${author.image}`} className="font-medium">
+              <Link to={`/@${author.username}`} className="font-medium">
                 {author.username}
               </Link>
-              <span className="text-conduit-gray text-date">
-                {DateTime.fromISO(createdAt).toLocaleString(DateTime.DATETIME_FULL)}
+              <span className="text-conduit-gray-500 text-date">
+                {DateTime.fromISO(createdAt).toLocaleString(
+                  DateTime.DATETIME_FULL
+                )}
               </span>
             </div>
           </div>
           <FavoriteButton count={favoritesCount} />
         </div>
         <Link to="/article/" className="hover:no-underline">
-          <h1 className="mb-1 text-2xl font-semibold text-conduit-darkestGray">
+          <h1 className="mb-1 text-2xl font-semibold text-conduit-gray-1000">
             {title}
           </h1>
-          <p className="mb-1 font-light text-conduit-darkenGray">
-            {description}
-          </p>
+          <p className="mb-1 font-light text-conduit-gray-600">{description}</p>
         </Link>
         <div className="flex justify-between">
-          <span className="font-light text-conduit-gray text-date">
+          <span className="font-light text-conduit-gray-500 text-date">
             Read more...
           </span>
           <TagList list={tagList} />

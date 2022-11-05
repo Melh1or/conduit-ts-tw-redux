@@ -8,7 +8,7 @@ import { ArticleList } from "../article-list/article-list.component";
 import { FeedToggle } from "../feed-toggle/feed-toggle.component";
 import { FEED_PAGE_SIZE } from "../../consts";
 import { serializeSearchParams } from "../../../../utils/router";
-import { TagCloud } from '../tag-cloud/tag-cloud.component';
+import { TagCloud } from "../tag-cloud/tag-cloud.component";
 
 interface FeedProps {}
 
@@ -19,7 +19,7 @@ export const Feed: FC<FeedProps> = () => {
   );
   const { data, isLoading, error, isFetching } = useGetGlobalFeedQuery({
     page,
-    tag: searchParams.get('tag')
+    tag: searchParams.get("tag"),
   });
 
   const handlePageChange = ({ selected }: { selected: number }) => {
@@ -47,7 +47,7 @@ export const Feed: FC<FeedProps> = () => {
               pageClassName="group"
               activeClassName="active group"
               activeLinkClassName="group-[.active]:bg-conduit-green group-[.active]:text-white group-[.active]:border-conduit-green"
-              pageLinkClassName="p-3 text-conduit-green bg-white border border-conduit-lighten-gray -ml-px group-[&:nth-child(2)]:rounded-l group-[&:nth-last-child(2)]:rounded-r hover:bg-conduit-pageHoverBg"
+              pageLinkClassName="p-3 text-conduit-green bg-white border border-conduit-gray-400 -ml-px group-[&:nth-child(2)]:rounded-l group-[&:nth-last-child(2)]:rounded-r hover:bg-conduit-gray-200"
               onPageChange={handlePageChange}
               forcePage={page}
             />
