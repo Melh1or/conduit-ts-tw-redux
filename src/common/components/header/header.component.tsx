@@ -14,18 +14,18 @@ export const Header: FC<HeaderProps> = () => {
 
   return (
     <header>
-      <nav className="py-2 px-4">
+      <nav className="px-4 py-2">
         <Container>
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <Link
               to="/"
-              className="font-titillium text-2xl mr-8 text-conduit-green"
+              className="mr-8 text-2xl font-titillium text-conduit-green"
             >
               conduit
             </Link>
-            <ul className="pl-0 mb-0 list-none flex">
+            <ul className="flex pl-0 mb-0 list-none">
               <li>
-                <NavLink to="/" className={navLinkClasses}>
+                <NavLink to="/" className={navLinkClasses} end>
                   Home
                 </NavLink>
               </li>

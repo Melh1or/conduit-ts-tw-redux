@@ -5,6 +5,7 @@ import { useGetProfileFeedQuery } from "../../feed/api/repository";
 import { FeedToggle } from "../../feed/components/feed-toggle/feed-toggle.component";
 import { Feed } from "../../feed/components/feed/feed.component";
 import { usePageParam } from "../../feed/hooks/use-page-param.hook";
+import { useGetProfileQuery } from "../api/repository";
 import { ProfileBanner } from "../components/profile-banner/profile-banner.component";
 
 interface ProfilePageProps {}
@@ -13,6 +14,10 @@ export const ProfilePage: FC<ProfilePageProps> = () => {
   const { page } = usePageParam();
   const { profile } = useParams<{ profile: string }>();
   const { pathname } = useLocation();
+
+  const { data: profileInfo, isLoading: profileLoading } = useGetProfileQuery({
+    username: profile!,
+  });
 
   const { error, isFetching, isLoading, data } = useGetProfileFeedQuery({
     page,
@@ -29,9 +34,11 @@ export const ProfilePage: FC<ProfilePageProps> = () => {
     },
   ];
 
+  if (profileLoading) return null;
+
   return (
     <>
-      <ProfileBanner />
+      <ProfileBanner profile={profileInfo!.profile} />
       <Container>
         <FeedToggle
           defaultText="My articles"
