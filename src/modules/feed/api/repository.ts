@@ -1,12 +1,21 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "../../../core/axios-base-query";
 import { FEED_PAGE_SIZE } from "../consts";
-import { FeedArticle, GlobalFeedInDTO } from "./dto/get-feed.in";
+import { FeedArticle } from "./dto/get-feed.in";
 import { PopularTagsInDTO } from "./dto/popular-tags.in";
+import { transformResponse } from "./utils";
 
-interface GlobalFeedParams {
+interface BaseFeedParams {
   page: number;
+}
+
+interface GlobalFeedParams extends BaseFeedParams {
   tag: string | null;
+}
+
+interface ProfileFeedParams extends BaseFeedParams {
+  author: string;
+  isFavorite?: boolean;
 }
 
 export interface FeedData {
@@ -29,12 +38,19 @@ export const feedApi = createApi({
           tag,
         },
       }),
-      transformResponse: (response: GlobalFeedInDTO) => {
-        return {
-          articles: response.articles || [],
-          articlesCount: response.articlesCount || 0,
-        };
-      },
+      transformResponse,
+    }),
+    getProfileFeed: builder.query<FeedData, ProfileFeedParams>({
+      query: ({ page, author, isFavorite }) => ({
+        url: "/articles",
+        params: {
+          limit: FEED_PAGE_SIZE,
+          offset: page * FEED_PAGE_SIZE,
+          author: isFavorite ? undefined : author,
+          favorited: isFavorite ? author : undefined,
+        },
+      }),
+      transformResponse,
     }),
     getPopularTags: builder.query<PopularTagsInDTO, {}>({
       query: () => ({
@@ -44,4 +60,8 @@ export const feedApi = createApi({
   }),
 });
 
-export const { useGetGlobalFeedQuery, useGetPopularTagsQuery } = feedApi;
+export const {
+  useGetGlobalFeedQuery,
+  useGetPopularTagsQuery,
+  useGetProfileFeedQuery,
+} = feedApi;
