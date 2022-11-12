@@ -4,6 +4,7 @@ import { Container } from "../../../common/components/container/container.compon
 import { useGetSingleArticleQuery } from "../api/repository";
 import { ArticleBanner } from "../components/article-banner/article-banner.component";
 import { ArticleMeta } from "../components/article-meta/article-meta.component";
+import { CommentsList } from "../components/comments-list/comments-list.components";
 import { TagList } from "../components/tag-list/tag-list.component";
 
 interface ArticlePageProps {}
@@ -50,6 +51,8 @@ export const ArticlePage: FC<ArticlePageProps> = () => {
             authorNameStyle="GREEN"
           />
         </div>
+
+        <CommentsList /> 
       </Container>
     </>
   );
