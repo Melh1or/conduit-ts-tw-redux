@@ -12,3 +12,11 @@ Example - https://demo.realworld.io/#/
 - Tailwind
 - React hook form with yup
 - Luxon
+
+
+## ToDo
+* extract shared types
+* avoid `setUser` actions
+* add protected route
+* fix imports + setup `prettier` for imports
+* add `router` to each module
