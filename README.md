@@ -15,7 +15,8 @@ Example - https://demo.realworld.io/#/
 
 
 ## ToDo
-* extract shared types
+* extract `shared` types
+* extract `lib` layer
 * avoid `setUser` actions
 * add protected route
 * fix imports + setup `prettier` for imports

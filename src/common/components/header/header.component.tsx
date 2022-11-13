@@ -7,7 +7,7 @@ import { Container } from "../container/container.component";
 interface HeaderProps {}
 
 export const Header: FC<HeaderProps> = () => {
-  const { isLoggedIn, logOut } = useAuth();
+  const { isLoggedIn, logOut, user } = useAuth();
 
   const navLinkClasses = ({ isActive }: { isActive: boolean }) =>
     clsx("py-navItem hover:text-black/60 hover:no-underline", {
@@ -33,15 +33,42 @@ export const Header: FC<HeaderProps> = () => {
                 </NavLink>
               </li>
               {isLoggedIn ? (
-                <li className="ml-4">
-                  <NavLink
-                    to="/"
-                    className="py-navItem hover:text-black/60 hover:no-underline text-black/30"
-                    onClick={logOut}
-                  >
-                    Logout
-                  </NavLink>
-                </li>
+                <>
+                  <li className="ml-4">
+                    <NavLink to="/editor" className={navLinkClasses}>
+                      <i className="mr-1 ion-compose" />
+                      New article
+                    </NavLink>
+                  </li>
+                  <li className="ml-4">
+                    <NavLink to="/sign-in" className={navLinkClasses}>
+                      <i className="mr-1 ion-gear-a" />
+                      Settings
+                    </NavLink>
+                  </li>
+                  <li className="ml-4">
+                    <NavLink
+                      to={`/@${user?.username}`}
+                      className={navLinkClasses}
+                    >
+                      <img
+                        className="inline w-6 h-6 mr-2 rounded-full"
+                        src={user?.image}
+                        alt={user?.username}
+                      />
+                      {user?.username}
+                    </NavLink>
+                  </li>
+                  <li className="ml-4">
+                    <NavLink
+                      to="/"
+                      className="py-navItem hover:text-black/60 hover:no-underline text-black/30"
+                      onClick={logOut}
+                    >
+                      Logout
+                    </NavLink>
+                  </li>
+                </>
               ) : (
                 <>
                   <li className="ml-4">
