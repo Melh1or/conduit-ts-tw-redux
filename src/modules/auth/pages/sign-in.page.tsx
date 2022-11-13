@@ -8,40 +8,37 @@ import { toast } from "react-toastify";
 import { Container } from "../../../common/components/container/container.component";
 import { Input } from "../../../common/components/input/input.component";
 import { Button } from "../../../common/components/button/button.component";
-import { useLazySignUpQuery } from "../api/repository";
+import { useLazySignInQuery } from "../api/repository";
 import { setUser } from "../service/slice";
 import { useAppDispatch } from "../../../store/store";
 
-interface SignUpPageProps {}
+interface SignInPageProps {}
 
-interface SignUpFormValues {
-  username: string;
+interface SignInFormValues {
   email: string;
   password: string;
 }
 
-const validationSchema: yup.SchemaOf<SignUpFormValues> = yup.object({
-  username: yup.string().required().min(3),
+const validationSchema: yup.SchemaOf<SignInFormValues> = yup.object({
   email: yup.string().required().email(),
   password: yup.string().required().min(6),
 });
 
-export const SignUpPage: FC<SignUpPageProps> = () => {
-  const { register, handleSubmit, formState } = useForm<SignUpFormValues>({
+export const SignInPage: FC<SignInPageProps> = () => {
+  const { register, handleSubmit, formState } = useForm<SignInFormValues>({
     defaultValues: {
       email: "",
       password: "",
-      username: "",
     },
     resolver: yupResolver(validationSchema),
   });
-  const [triggerSignUpQuery] = useLazySignUpQuery();
+  const [triggerSignInQuery] = useLazySignInQuery();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = async (values: SignUpFormValues) => {
+  const onSubmit = async (values: SignInFormValues) => {
     try {
-      const { data } = await triggerSignUpQuery(values, false);
+      const { data } = await triggerSignInQuery(values, false);
       if (!data) {
         throw new Error("No data in query");
       }
@@ -54,9 +51,9 @@ export const SignUpPage: FC<SignUpPageProps> = () => {
 
   return (
     <Container>
-      <h1 className="mb-4 text-4xl text-center">Sign Up</h1>
+      <h1 className="mb-4 text-4xl text-center">Sign In</h1>
       <p className="mb-4 text-center">
-        <Link to="/sign-in">Have an account?</Link>
+        <Link to="/sign-up">You need an account?</Link>
       </p>
 
       <form
@@ -74,7 +71,6 @@ export const SignUpPage: FC<SignUpPageProps> = () => {
           ))}
         </ul>
 
-        <Input type="text" placeholder="Username" {...register("username")} />
         <Input placeholder="Email" type="email" {...register("email")} />
         <Input
           placeholder="Password"
@@ -88,7 +84,7 @@ export const SignUpPage: FC<SignUpPageProps> = () => {
             type="submit"
             disabled={formState.isSubmitting}
           >
-            Sign up
+            Sign in
           </Button>
         </div>
       </form>

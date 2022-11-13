@@ -1,0 +1,11 @@
+export interface SignInInDto {
+  user: User;
+}
+
+interface User {
+  username: string;
+  email: string;
+  token: string;
+  image: string
+  bio: string
+}
