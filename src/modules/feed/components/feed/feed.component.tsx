@@ -33,8 +33,10 @@ export const Feed: FC<FeedProps> = ({ data, error, isFetching, isLoading }) => {
         <ReactPaginate
           previousLabel={null}
           nextLabel={null}
-          pageCount={(data?.articlesCount || 0) / FEED_PAGE_SIZE}
-          pageRangeDisplayed={(data?.articlesCount || 0) / FEED_PAGE_SIZE}
+          pageCount={Math.ceil((data?.articlesCount || 0) / FEED_PAGE_SIZE)}
+          pageRangeDisplayed={Math.ceil(
+            (data?.articlesCount || 0) / FEED_PAGE_SIZE
+          )}
           containerClassName="flex"
           pageClassName="group"
           activeClassName="active group"
