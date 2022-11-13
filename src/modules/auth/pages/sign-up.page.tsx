@@ -11,6 +11,7 @@ import { Button } from "../../../common/components/button/button.component";
 import { useLazySignUpQuery } from "../api/repository";
 import { setUser } from "../service/slice";
 import { useAppDispatch } from "../../../store/store";
+import { useAuth } from "../hooks/use-auth";
 
 interface SignUpPageProps {}
 
@@ -27,6 +28,7 @@ const validationSchema: yup.SchemaOf<SignUpFormValues> = yup.object({
 });
 
 export const SignUpPage: FC<SignUpPageProps> = () => {
+  const { signUp } = useAuth();
   const { register, handleSubmit, formState } = useForm<SignUpFormValues>({
     defaultValues: {
       email: "",
@@ -35,17 +37,11 @@ export const SignUpPage: FC<SignUpPageProps> = () => {
     },
     resolver: yupResolver(validationSchema),
   });
-  const [triggerSignUpQuery] = useLazySignUpQuery();
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const onSubmit = async (values: SignUpFormValues) => {
     try {
-      const { data } = await triggerSignUpQuery(values, false);
-      if (!data) {
-        throw new Error("No data in query");
-      }
-      dispatch(setUser(data!.user));
+      await signUp(values);
       navigate("/");
     } catch (e) {
       toast.error("Something wen't wrong.");
