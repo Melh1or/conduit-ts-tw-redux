@@ -1,11 +1,8 @@
-import { FC } from "react";
 import { SignInPage } from "../modules/auth/pages/sign-in.page";
 import { SignUpPage } from "../modules/auth/pages/sign-up.page";
 import { ArticlePage } from "../modules/feed/pages/article.page";
 import { GlobalFeedPage } from "../modules/feed/pages/global-feed.page";
 import { ProfilePage } from "../modules/profile/pages/profile.page";
-
-// type Routes = Record<string, { path: string; Element: FC<any> }>;
 
 export const routes = {
   globalFeed: {
@@ -36,4 +33,8 @@ export const routes = {
     path: "/sign-in",
     Element: SignInPage,
   },
-} as const
+  settings: {
+    path: "/settings",
+    Element: GlobalFeedPage,
+  },
+} as const;

@@ -41,6 +41,7 @@ export const feedApi = createApi({
   baseQuery: realWorldBaseQuery,
   endpoints: (builder) => ({
     getGlobalFeed: builder.query<FeedData, GlobalFeedParams>({
+      keepUnusedDataFor: 1,
       query: ({ page, tag, isPersonalFeed }) => ({
         url: isPersonalFeed ? "/articles/feed" : "/articles",
         params: {
@@ -50,15 +51,9 @@ export const feedApi = createApi({
         },
       }),
       transformResponse,
-      providesTags: (result) =>
-        result
-          ? result.articles.map((article) => ({
-              type: "Article",
-              slug: article.slug,
-            }))
-          : ["Article"],
     }),
     getProfileFeed: builder.query<FeedData, ProfileFeedParams>({
+      keepUnusedDataFor: 1,
       query: ({ page, author, isFavorite }) => ({
         url: "/articles",
         params: {
@@ -71,11 +66,13 @@ export const feedApi = createApi({
       transformResponse,
     }),
     getPopularTags: builder.query<PopularTagsInDTO, {}>({
+      keepUnusedDataFor: 1,
       query: () => ({
         url: "/tags",
       }),
     }),
     getSingleArticle: builder.query<SingleArticleInDTO, SingleArticleParams>({
+      keepUnusedDataFor: 1,
       query: ({ slug }) => ({
         url: `/articles/${slug}`,
       }),
