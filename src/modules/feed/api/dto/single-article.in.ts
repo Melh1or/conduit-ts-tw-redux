@@ -6,6 +6,7 @@ export interface Author {
 }
 
 export interface Article {
+  id: string
   slug: string;
   title: string;
   description: string;

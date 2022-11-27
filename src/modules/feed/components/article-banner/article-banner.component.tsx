@@ -8,12 +8,16 @@ interface ArticleBannerProps {
   author: Author;
   likes: number;
   publishedAt: string;
+  slug: string;
+  isFavorited: boolean
 }
 
 export const ArticleBanner: FC<ArticleBannerProps> = ({
   author,
   likes,
   publishedAt,
+  slug,
+  isFavorited,
 }) => {
   return (
     <div className="pt-8 pb-4 mb-8 bg-conduit-gray-1100">
@@ -25,6 +29,8 @@ export const ArticleBanner: FC<ArticleBannerProps> = ({
           consequuntur ad sequi sit! Unde.
         </h1>
         <ArticleMeta
+          isFavorited={isFavorited}
+          slug={slug}
           authorNameStyle="GREEN"
           author={author}
           likes={likes}

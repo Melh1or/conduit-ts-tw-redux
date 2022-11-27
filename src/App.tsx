@@ -22,7 +22,11 @@ export const App: FC<AppProps> = () => {
       <Header />
       <Routes>
         {Object.values(routes).map((route) => (
-          <Route path={route.path} element={<route.Element />} />
+          <Route
+            key={route.path}
+            path={route.path}
+            element={<route.Element />}
+          />
         ))}
       </Routes>
     </div>

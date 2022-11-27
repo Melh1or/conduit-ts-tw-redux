@@ -18,7 +18,12 @@ export const GlobalFeedPage: FC<GlobalFeedPageProps> = () => {
   const [searchParams] = useSearchParams();
   const { page } = usePageParam();
   const personalFeed = useMatch(routes.personalFeed.path);
-  console.log(personalFeed);
+
+  console.log({
+    page,
+    isPersonalFeed: personalFeed !== null,
+    tag: searchParams.get("tag"),
+  });
 
   const { data, isLoading, error, isFetching } = useGetGlobalFeedQuery({
     page,

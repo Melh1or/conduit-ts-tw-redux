@@ -1,10 +1,7 @@
 import { ComponentProps, FC } from "react";
 import { FollowButton } from "../../../profile/components/follow-button/follow-button.component";
 import { Author } from "../../api/dto/get-feed.in";
-import {
-  ArticleAuthor,
-  NameStyleEnum,
-} from "../article-author/article-author.component";
+import { ArticleAuthor } from "../article-author/article-author.component";
 import { FavoriteButton } from "../favorite-button/favorite-button.component";
 
 interface ArticleMetaProps {
@@ -15,6 +12,8 @@ interface ArticleMetaProps {
   likes?: number;
   publishedAt: string;
   showActionsButtons?: boolean;
+  slug: string
+  isFavorited: boolean
 }
 
 export const ArticleMeta: FC<ArticleMetaProps> = ({
@@ -25,6 +24,8 @@ export const ArticleMeta: FC<ArticleMetaProps> = ({
   showActionsButtons = true,
   authorDirection,
   authorNameSize,
+  slug,
+  isFavorited,
 }) => {
   return (
     <div>
@@ -40,7 +41,12 @@ export const ArticleMeta: FC<ArticleMetaProps> = ({
       {showActionsButtons && (
         <div className="inline-flex gap-4">
           <FollowButton username={author.username} btnStyle="LIGHT" />
-          <FavoriteButton count={likes ?? 0} extended />
+          <FavoriteButton
+            count={likes ?? 0}
+            extended
+            slug={slug}
+            isFavorited={isFavorited}
+          />
         </div>
       )}
     </div>

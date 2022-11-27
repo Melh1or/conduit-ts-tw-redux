@@ -28,6 +28,8 @@ export const ArticlePage: FC<ArticlePageProps> = () => {
   return (
     <>
       <ArticleBanner
+        isFavorited={data.article.favorited}
+        slug={slug!}
         title={data.article.title}
         author={data.article.author}
         likes={data.article.favoritesCount}
@@ -45,6 +47,8 @@ export const ArticlePage: FC<ArticlePageProps> = () => {
         </div>
         <div className="flex justify-center">
           <ArticleMeta
+            isFavorited={data.article.favorited}
+            slug={slug!}
             publishedAt={data.article.createdAt}
             likes={data.article.favoritesCount}
             author={data.article.author}
@@ -52,7 +56,7 @@ export const ArticlePage: FC<ArticlePageProps> = () => {
           />
         </div>
 
-        <CommentsList /> 
+        <CommentsList />
       </Container>
     </>
   );

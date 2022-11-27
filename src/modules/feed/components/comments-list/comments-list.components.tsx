@@ -32,7 +32,12 @@ export const CommentsList: FC<CommentsListProps> = () => {
         to add comments on this article.
       </p>
       {data.comments.map((comment) => (
-        <CommentItem key={comment.id} {...comment} />
+        <CommentItem
+          key={comment.id}
+          slug={slug!}
+          isFavorited={false}
+          {...comment}
+        />
       ))}
     </div>
   );

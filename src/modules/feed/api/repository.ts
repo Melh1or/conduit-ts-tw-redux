@@ -2,18 +2,19 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { realWorldBaseQuery } from "../../../core/api/realworld-base-query";
 import { FEED_PAGE_SIZE } from "../consts";
 import { ArticleCommentsInDTO } from "./dto/article-comments.in";
+import { FavoriteArticleInDTO } from "./dto/favorite-article.in";
 import { FeedArticle } from "./dto/get-feed.in";
 import { PopularTagsInDTO } from "./dto/popular-tags.in";
 import { SingleArticleInDTO } from "./dto/single-article.in";
-import { transformResponse } from "./utils";
+import { replaceCachedArticle, transformResponse } from "./utils";
 
 interface BaseFeedParams {
   page: number;
 }
 
-interface GlobalFeedParams extends BaseFeedParams {
+export interface GlobalFeedParams extends BaseFeedParams {
   tag: string | null;
-  isPersonalFeed: boolean
+  isPersonalFeed: boolean;
 }
 
 interface ProfileFeedParams extends BaseFeedParams {
@@ -30,13 +31,18 @@ export interface SingleArticleParams {
   slug: string;
 }
 
+export interface FavoriteArticleParams {
+  slug: string;
+}
+
 export const feedApi = createApi({
   reducerPath: "feedApi",
+  tagTypes: ["Article"],
   baseQuery: realWorldBaseQuery,
   endpoints: (builder) => ({
     getGlobalFeed: builder.query<FeedData, GlobalFeedParams>({
       query: ({ page, tag, isPersonalFeed }) => ({
-        url: isPersonalFeed ? "/articles/feed" : '/articles',
+        url: isPersonalFeed ? "/articles/feed" : "/articles",
         params: {
           limit: FEED_PAGE_SIZE,
           offset: page * FEED_PAGE_SIZE,
@@ -44,6 +50,13 @@ export const feedApi = createApi({
         },
       }),
       transformResponse,
+      providesTags: (result) =>
+        result
+          ? result.articles.map((article) => ({
+              type: "Article",
+              slug: article.slug,
+            }))
+          : ["Article"],
     }),
     getProfileFeed: builder.query<FeedData, ProfileFeedParams>({
       query: ({ page, author, isFavorite }) => ({
@@ -75,6 +88,30 @@ export const feedApi = createApi({
         url: `/articles/${slug}/comments`,
       }),
     }),
+    favoriteArticle: builder.mutation<
+      FavoriteArticleInDTO,
+      FavoriteArticleParams
+    >({
+      query: ({ slug }) => ({
+        url: `/articles/${slug}/favorite`,
+        method: "POST",
+      }),
+      async onQueryStarted({}, { dispatch, queryFulfilled, getState }) {
+        await replaceCachedArticle(getState, queryFulfilled, dispatch, feedApi);
+      },
+    }),
+    unfavoriteArticle: builder.mutation<
+      FavoriteArticleInDTO,
+      FavoriteArticleParams
+    >({
+      query: ({ slug }) => ({
+        url: `/articles/${slug}/favorite`,
+        method: "DELETE",
+      }),
+      async onQueryStarted({}, { dispatch, queryFulfilled, getState }) {
+        await replaceCachedArticle(getState, queryFulfilled, dispatch, feedApi);
+      },
+    }),
   }),
 });
 
@@ -83,5 +120,7 @@ export const {
   useGetPopularTagsQuery,
   useGetProfileFeedQuery,
   useGetSingleArticleQuery,
-  useGetCommentsForArticleQuery
+  useGetCommentsForArticleQuery,
+  useFavoriteArticleMutation,
+  useUnfavoriteArticleMutation,
 } = feedApi;
